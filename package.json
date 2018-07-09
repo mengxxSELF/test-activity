@@ -1,0 +1,39 @@
+{
+  "name": "test-activity",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "PORT=9093 nodemon --harmony index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mengxxSELF/test-activity.git"
+  },
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bd": "^0.4.0",
+    "bd-require": "^0.1.0",
+    "handlebars": "^4.0.11",
+    "jsonwebtoken": "^8.3.0",
+    "koa-jwt": "^3.3.2",
+    "koa-static": "^1.5.2",
+    "url": "^0.11.0",
+    "urllib": "^2.29.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mengxxSELF/test-activity/issues"
+  },
+  "homepage": "https://github.com/mengxxSELF/test-activity#readme",
+  "devDependencies": {
+    "koa-static": "^1.5.2",
+    "nodemon": "^1.17.5",
+    "shipit-cnpm": "^0.7.0",
+    "shipit-deploy": "^4.1.0",
+    "shipit-pm": "^0.3.0"
+  }
+}

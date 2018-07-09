@@ -1,0 +1,27 @@
+.music {
+  figure {
+    position: relative;
+    width: 200px;
+    p {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.5);
+      width: 200px;
+      height: 200px;
+    }
+    .anticon {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      font-size: 40px;
+      margin-left: -20px;
+      margin-top: -20px;
+    }
+  }
+  img {
+    width: 200px;
+  }
+  .ant-collapse .ant-collapse-content {
+    border: 1px solid #e7f6e1;
+    background-color: #f3faf0;
+  }
+}
