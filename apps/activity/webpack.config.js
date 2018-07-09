@@ -99,7 +99,7 @@ module.exports = {
     // 每次都会清理 pbblic 文件夹的内容
     new CleanWebpackPlugin(
       // ['public'],
-      [`./public/${APP_NAME}*`],　 //匹配删除的文件
+      [`./public`],　 //匹配删除的文件
       {
         root: __dirname,       　　　　　　　　　　//根目录
         // verbose: true,        　　　　　　　　　　//开启在控制台输出信息

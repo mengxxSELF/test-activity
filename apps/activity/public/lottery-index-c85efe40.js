@@ -2320,7 +2320,7 @@ var Cont = function (_Component) {
         _react2.default.createElement(
           'div',
           null,
-          _react2.default.createElement(_Login2.default, { exact: true, path: '/', component: _Login2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _Login2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/lottery', component: _Lottery2.default })
         )
       );
@@ -5146,7 +5146,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @Author: 孟闲闲   -- 登录
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @Date: 2018-07-09 14:33:53
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @Last Modified by: mxx
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @Last Modified time: 2018-07-09 16:44:45
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @Last Modified time: 2018-07-09 19:08:58
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var APP_NAME = 'activity/lottery';
@@ -5162,13 +5162,20 @@ var Login = function (_Component) {
 
   _createClass(Login, [{
     key: 'login',
-    value: function login() {
+    value: function login(isLogin) {
+      // 不登录 直接抽奖
+      if (!isLogin) {
+        window.location.hash = 'lottery';
+        return;
+      }
       _axios2.default.get('/' + APP_NAME + '/login?name=mxx&password=123').then(function (_ref) {
         var data = _ref.data;
-        var token = data.token;
-        // 将token存在本地
+        var token = data.token,
+            username = data.username;
+        // 将token和username存在本地
 
         window.localStorage.setItem('token', token);
+        window.localStorage.setItem('username', username);
         window.location.hash = 'lottery';
         console.log(data);
       }).catch(function (error) {
@@ -5206,9 +5213,16 @@ var Login = function (_Component) {
         _react2.default.createElement(
           'button',
           { className: 'btn btn-primary', onClick: function onClick() {
-              return _this2.login();
+              return _this2.login(true);
             } },
-          'Submit'
+          '\u767B\u5F55\u62BD\u5956'
+        ),
+        _react2.default.createElement(
+          'button',
+          { style: { display: 'block', marginTop: 20 }, className: 'btn btn-secondary', onClick: function onClick() {
+              return _this2.login(false);
+            } },
+          '\u4E0D\u767B\u5F55\u76F4\u63A5\u62BD\u5956'
         )
       );
     }
@@ -6130,9 +6144,9 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /*
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @Author: 孟闲闲 -- 抽奖翻盘
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @Date: 2018-07-09 14:32:20 
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @Date: 2018-07-09 14:32:20
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 * @Last Modified by: mxx
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @Last Modified time: 2018-07-09 16:45:36
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @Last Modified time: 2018-07-09 19:08:01
                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 */
 
 var APP_NAME = 'activity/lottery';
@@ -6141,32 +6155,84 @@ var Lottery = function (_Component) {
   _inherits(Lottery, _Component);
 
   function Lottery() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, Lottery);
 
-    return _possibleConstructorReturn(this, (Lottery.__proto__ || Object.getPrototypeOf(Lottery)).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Lottery.__proto__ || Object.getPrototypeOf(Lottery)).call.apply(_ref, [this].concat(args))), _this), _this.state = {}, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(Lottery, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // 通过判断当前localStorage中是否有token参数
+      var token = window.localStorage.getItem('token');
+      if (token) {
+        this.setState({ isToken: true });
+      }
+    }
+  }, {
     key: 'draw',
     value: function draw() {
-      var token = window.localStorage.getItem('token');
+      var _this2 = this;
 
-      _axios2.default.get('/' + APP_NAME + '/win', {
+      // 获取jwt --token
+      var token = window.localStorage.getItem('token');
+      // 获取用户名
+      var username = window.localStorage.getItem('username');
+
+      _axios2.default.get('/' + APP_NAME + '/win?username=' + username, {
         headers: {
           Authorization: token
         }
-      }).then(function (_ref) {
-        var data = _ref.data;
+      }).then(function (_ref2) {
+        var data = _ref2.data;
+        var number = data.number,
+            code = data.code;
 
-        console.log(data);
+        var msg = void 0;
+        if (code == 200) {
+          msg = '\u606D\u559C ' + username + ' \u6293\u5230 \u6731\u4E00\u9F99 ' + number + '\u53F7';
+        } else {
+          msg = '无权限抽奖，请先登录';
+        }
+        _this2.setState({ msg: msg });
       }).catch(function (error) {
         console.log(error);
+        this.setState({ msg: '无权限抽奖，请先登录' });
       });
+    }
+    // 退出登录 - 清除localStorage的信息
+
+  }, {
+    key: 'out',
+    value: function out() {
+      window.localStorage.removeItem('token');
+      window.location.hash = '/';
+    }
+    // 返回登录
+
+  }, {
+    key: 'in',
+    value: function _in() {
+      window.location.hash = '/';
     }
   }, {
     key: 'render',
     value: function render() {
-      var _this2 = this;
+      var _this3 = this;
+
+      var _state = this.state,
+          _state$isToken = _state.isToken,
+          isToken = _state$isToken === undefined ? false : _state$isToken,
+          _state$msg = _state.msg,
+          msg = _state$msg === undefined ? '点击按钮抽奖' : _state$msg;
 
       return _react2.default.createElement(
         'div',
@@ -6177,15 +6243,28 @@ var Lottery = function (_Component) {
           _react2.default.createElement(
             'div',
             { className: 'card-body' },
-            '\u70B9\u51FB\u6309\u94AE\u62BD\u5956'
+            msg
           )
         ),
         _react2.default.createElement(
           'button',
           { type: 'button', className: 'btn btn-info', onClick: function onClick() {
-              return _this2.draw();
+              return _this3.draw();
             } },
           'GO'
+        ),
+        isToken ? _react2.default.createElement(
+          'button',
+          { type: 'button', style: { marginTop: 20, display: 'block' }, className: 'btn btn-dark', onClick: function onClick() {
+              return _this3.out();
+            } },
+          '\u9000\u51FA\u767B\u5F55'
+        ) : _react2.default.createElement(
+          'button',
+          { type: 'button', style: { marginTop: 20, display: 'block' }, className: 'btn btn-dark', onClick: function onClick() {
+              return _this3.in();
+            } },
+          '\u8FD4\u56DE\u767B\u5F55'
         )
       );
     }

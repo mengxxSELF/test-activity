@@ -19,7 +19,7 @@ class Cont extends Component {
       <HashRouter>
         <div>
           {/* 报名 */}
-          <Login exact path='/' component={Login} />
+          <Route exact path='/' component={Login} />
           {/* 抽奖 */}
           <Route exact path='/lottery' component={Lottery} />
         </div>
