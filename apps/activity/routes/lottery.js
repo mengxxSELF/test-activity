@@ -1,8 +1,22 @@
 const APP_NAME = 'lottery'
-
-// {name: 'who', pwd: 123}
-
+const fs = require('fs')
+const path = require('path')
+const userFile = path.resolve(__dirname, '../lib/index.js')
 const SECRET = 'girl'
+// 不使用服务器 直接使用文件来记录中奖
+// 写入中奖信息
+function writeLottery ({name, number}) {
+  let old = readLottery() ||[]
+  let newInfo = [].concat(old, [{name, number}])
+  let info = JSON.stringify(newInfo)
+  let result = fs.writeFileSync(userFile, info, 'utf-8')
+}
+
+// 读取中奖信息
+function readLottery () {
+  let result = fs.readFileSync(userFile, 'utf-8')
+  return JSON.parse(result)
+}
 
 // jwt
 let jwt = require('jsonwebtoken')
@@ -10,6 +24,20 @@ let jwt = require('jsonwebtoken')
 module.exports = (router) => {
   router.get(`/${APP_NAME}`, function * (next) {
     yield this.render('lottery')
+  })
+
+  // lottery
+  router.get(`/${APP_NAME}/lottery`, function * (next) {
+    let data = []
+    let code
+    try {
+      data = readLottery()
+      code = 200
+    } catch (e) {
+      code = 500
+    } finally {
+      this.body = {code, data}
+    }
   })
 
   // login
@@ -26,13 +54,13 @@ module.exports = (router) => {
       }, SECRET)
 
       username = name
-
       code = 200
     } catch (e) {
       console.log(e, 'e')
       code = 500
       username = ''
     } finally {
+      // console.log(token, username, 'hhhhhhh')
       this.body = {code, token, username}
     }
   })
@@ -56,11 +84,13 @@ module.exports = (router) => {
 
       // 随机值
       number = Math.floor(Math.random() * 100)
+      writeLottery ({name, number})
       code = 200
     } catch (e) {
       code = 500
       console.log(e, 'e')
     } finally {
+      console.log(code, number);
       this.body = {code, number}
     }
   })

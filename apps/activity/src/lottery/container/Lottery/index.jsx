@@ -8,17 +8,29 @@
 import axios from 'axios'
 
 const APP_NAME = 'activity/lottery'
-
 import React, { Component } from 'react'
+import Info from '../Info'
 
 export default class Lottery extends Component {
   state = {}
+  getData () {
+    axios.get(`/${APP_NAME}/lottery`)
+    .then(({data}) => {
+      let {code, data: all} = data
+      this.setState({data: all})
+    })
+    .catch(function (error) {
+      console.log(error)
+    })
+  }
   componentDidMount () {
     // 通过判断当前localStorage中是否有token参数
     let token = window.localStorage.getItem('token')
     if (token) {
       this.setState({isToken: true})
     }
+
+    this.getData()
   }
   draw () {
     // 获取jwt --token
@@ -36,6 +48,7 @@ export default class Lottery extends Component {
         let msg
         if (code == 200) {
           msg = `恭喜 ${username} 抓到 朱一龙 ${number}号`
+          this.getData()
         } else {
           msg = '无权限抽奖，请先登录'
         }
@@ -56,7 +69,7 @@ export default class Lottery extends Component {
     window.location.hash = '/'
   }
   render() {
-    let { isToken = false, msg = '点击按钮抽奖' } = this.state
+    let { isToken = false, msg = '点击按钮抽奖', data } = this.state
     return (
       <div>
         <div className="card">
@@ -71,6 +84,7 @@ export default class Lottery extends Component {
             :
             <button type="button" style={{ marginTop: 20, display: 'block' }} className="btn btn-dark" onClick={() => this.in()}>返回登录</button>
         }
+        <Info data={data} />
       </div>
     )
   }

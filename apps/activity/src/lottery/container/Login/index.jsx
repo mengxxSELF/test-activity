@@ -6,8 +6,8 @@
  */
 
 import React, { Component } from 'react'
-
 import axios from 'axios'
+import $ from 'jquery'
 
 const APP_NAME = 'activity/lottery'
 
@@ -18,14 +18,17 @@ export default class Login extends Component {
       window.location.hash = 'lottery'
       return
     }
-    axios.get(`/${APP_NAME}/login?name=mxx&password=123`)
+
+    let name = $('input[placeholder=name]').val() || ''
+    let pwd = $('input[placeholder=Password]').val() || ''
+
+    axios.get(`/${APP_NAME}/login?name=${name}&password=${pwd}`)
     .then(function ({data}) {
       let {token, username} = data
       // 将token和username存在本地
       window.localStorage.setItem('token', token)
       window.localStorage.setItem('username', username)
       window.location.hash = 'lottery'
-      console.log(data);
     })
     .catch(function (error) {
       console.log(error);
@@ -36,7 +39,7 @@ export default class Login extends Component {
       <form>
         <div className="form-group">
           <label>username</label>
-          <input className="form-control" placeholder="Enter name" />
+          <input className="form-control" placeholder="name" />
         </div>
         <div className="form-group">
           <label>Password</label>
