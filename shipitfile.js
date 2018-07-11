@@ -6,9 +6,9 @@ module.exports = function (shipit) {
   require('shipit-pm')(shipit)
   shipit.initConfig({
     default: {
-      workspace: '/tmp/deploy/test-project',
-      deployTo: '/home/work/test-project',
-      repositoryUrl: 'https://github.com/mengxxSELF/test-project.git',
+      workspace: '/tmp/deploy/test-activity',
+      deployTo: '/home/work/test-activity',
+      repositoryUrl: 'https://github.com/mengxxSELF/test-activity.git',
       ignores: ['.git', 'node_modules'],
       keepReleases: 2,
       deleteOnRollback: false,
@@ -22,12 +22,12 @@ module.exports = function (shipit) {
       },
       pm: {
         production: {
-          path: '/home/work/test-project/current/pm2/production.json'
+          path: '/home/work/test-activity/current/pm2/production.json'
         }
       }
     },
     production: {
-      servers: ['root@47.104.231.146'],
+      servers: ['root@101.200.45.254'],
       branch: 'master'
     }
   })

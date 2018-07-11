@@ -1,8 +1,8 @@
 {
-  "name": "test-project",
-  "script": "/home/work/test-project/current/index.js",
-  "error_file": "/data/logs/pm2/test-project/error.log",
-  "out_file": "/data/logs/pm2/test-project/out.log",
+  "name": "test-activity",
+  "script": "/home/work/test-activity/current/index.js",
+  "error_file": "/data/logs/pm2/test-activity/error.log",
+  "out_file": "/data/logs/pm2/test-activity/out.log",
   "log_date_format": "YYYY-MM-DD HH:mm Z",
   "instances": 3,
   "merge_logs": true,
