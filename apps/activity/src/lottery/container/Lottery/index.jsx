@@ -18,6 +18,13 @@ export default class Lottery extends Component {
     axios.get(`/${APP_NAME}/lottery`)
     .then(({data}) => {
       let {code, data: all} = data
+
+      if (all && all.length) {
+        all = all.sort((a, b) => {
+          return b['time'] - a['time']
+        })
+      }
+
       this.setState({data: all})
     })
     .catch((error) => {
@@ -54,6 +61,13 @@ export default class Lottery extends Component {
 
           let {data: allData} = this.state
           allData.push({name: username, number, time })
+
+          if (allData && allData.length) {
+            allData = allData.sort((a, b) => {
+              return b['time'] - a['time']
+            })
+          }
+
           this.setState({data: allData})
         } else {
           msg = '无权限抽奖，请先登录'
@@ -76,11 +90,6 @@ export default class Lottery extends Component {
   }
   render() {
     let { isToken = false, msg = '点击按钮抽奖', data } = this.state
-    if (data && data.length) {
-      data = data.sort((a, b) => {
-        return b['time'] - a['time']
-      })
-    }
     return (
       <div>
         <div className="card">

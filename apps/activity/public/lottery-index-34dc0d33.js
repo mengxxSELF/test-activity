@@ -32922,6 +32922,13 @@ var Lottery = function (_Component) {
         var code = data.code,
             all = data.data;
 
+
+        if (all && all.length) {
+          all = all.sort(function (a, b) {
+            return b['time'] - a['time'];
+          });
+        }
+
         _this2.setState({ data: all });
       }).catch(function (error) {
         console.log(error);
@@ -32966,6 +32973,13 @@ var Lottery = function (_Component) {
           var allData = _this3.state.data;
 
           allData.push({ name: username, number: number, time: time });
+
+          if (allData && allData.length) {
+            allData = allData.sort(function (a, b) {
+              return b['time'] - a['time'];
+            });
+          }
+
           _this3.setState({ data: allData });
         } else {
           msg = '无权限抽奖，请先登录';
@@ -33003,11 +33017,6 @@ var Lottery = function (_Component) {
           msg = _state$msg === undefined ? '点击按钮抽奖' : _state$msg,
           data = _state.data;
 
-      if (data && data.length) {
-        data = data.sort(function (a, b) {
-          return b['time'] - a['time'];
-        });
-      }
       return _react2.default.createElement(
         'div',
         null,
