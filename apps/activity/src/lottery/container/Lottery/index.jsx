@@ -10,16 +10,17 @@ import axios from 'axios'
 const APP_NAME = 'activity/lottery'
 import React, { Component } from 'react'
 import Info from '../Info'
+import moment from 'moment'
 
 export default class Lottery extends Component {
-  state = {}
+  state = {data: []}
   getData () {
     axios.get(`/${APP_NAME}/lottery`)
     .then(({data}) => {
       let {code, data: all} = data
       this.setState({data: all})
     })
-    .catch(function (error) {
+    .catch((error) => {
       console.log(error)
     })
   }
@@ -38,7 +39,9 @@ export default class Lottery extends Component {
     // 获取用户名
     let username = window.localStorage.getItem('username')
 
-    axios.get(`/${APP_NAME}/win?username=${username}`, {
+    let time = moment().format('MMDDHHmm')
+
+    axios.get(`/${APP_NAME}/win?username=${username}&time=${time}`, {
       headers: {
         Authorization: token
       }
@@ -48,13 +51,16 @@ export default class Lottery extends Component {
         let msg
         if (code == 200) {
           msg = `恭喜 ${username} 抓到 朱一龙 ${number}号`
-          this.getData()
+
+          let {data: allData} = this.state
+          allData.push({name: username, number, time })
+          this.setState({data: allData})
         } else {
           msg = '无权限抽奖，请先登录'
         }
         this.setState({ msg })
       })
-      .catch(function (error) {
+      .catch((error) => {
         console.log(error);
         this.setState({ msg: '无权限抽奖，请先登录' })
       });
@@ -70,6 +76,11 @@ export default class Lottery extends Component {
   }
   render() {
     let { isToken = false, msg = '点击按钮抽奖', data } = this.state
+    if (data && data.length) {
+      data = data.sort((a, b) => {
+        return b['time'] - a['time']
+      })
+    }
     return (
       <div>
         <div className="card">

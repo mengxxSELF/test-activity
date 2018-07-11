@@ -5,9 +5,9 @@ const userFile = path.resolve(__dirname, '../lib/index.js')
 const SECRET = 'girl'
 // 不使用服务器 直接使用文件来记录中奖
 // 写入中奖信息
-function writeLottery ({name, number}) {
+function writeLottery ({name, number, time}) {
   let old = readLottery() ||[]
-  let newInfo = [].concat(old, [{name, number}])
+  let newInfo = [].concat(old, [{name, number, time}])
   let info = JSON.stringify(newInfo)
   let result = fs.writeFileSync(userFile, info, 'utf-8')
 }
@@ -31,7 +31,7 @@ module.exports = (router) => {
     let data = []
     let code
     try {
-      data = readLottery()
+      data = readLottery().splice(0, 20)
       code = 200
     } catch (e) {
       code = 500
@@ -72,7 +72,7 @@ module.exports = (router) => {
     let number
     let code
     try {
-      let {username} = this.query
+      let {username, time} = this.query
       let token = this.headers.authorization
       // 解码
       let decoded = jwt.verify(token, SECRET)
@@ -86,7 +86,7 @@ module.exports = (router) => {
 
       // 随机值
       number = Math.floor(Math.random() * 100)
-      writeLottery ({name, number})
+      writeLottery ({name, number, time})
       code = 200
     } catch (e) {
       code = 500
