@@ -6,8 +6,8 @@ module.exports = function (shipit) {
   require('shipit-pm')(shipit)
   shipit.initConfig({
     default: {
-      workspace: '/tmp/deploy/mxx-project',
-      deployTo: '/home/work/mxx-project',
+      workspace: '/tmp/deploy/test-project',
+      deployTo: '/home/work/test-project',
       repositoryUrl: 'https://github.com/mengxxSELF/test-project.git',
       ignores: ['.git', 'node_modules'],
       keepReleases: 2,
@@ -26,14 +26,14 @@ module.exports = function (shipit) {
         }
       }
     },
-    production: {
-      servers: ['vbird2@101.200.45.254'],
-      branch: 'master'
-    },
     // production: {
-    //   servers: ['root@101.200.45.254'],
+    //   servers: ['vbird2@101.200.45.254'],
     //   branch: 'master'
     // },
+    production: {
+      servers: ['root@101.200.45.254'],
+      branch: 'master'
+    },
     // production: {
     //   servers: ['root@47.104.231.146'],
     //   branch: 'master'
