@@ -53,7 +53,7 @@ module.exports = (router) => {
         exp: Math.floor(Date.now() / 1000) + (60 * 60), // 设置 token 过期时间
       }, SECRET)
 
-      console.log(token, 'token')
+      // console.log(token, 'token')
 
       username = name
       code = 200
@@ -92,7 +92,6 @@ module.exports = (router) => {
       code = 500
       console.log(e, 'e')
     } finally {
-      console.log(code, number);
       this.body = {code, number}
     }
   })
