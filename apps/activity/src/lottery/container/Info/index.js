@@ -14,7 +14,7 @@ export default class Info extends Component {
         </div>
         <div>
           {
-            data && data.length > 0 && data.map((item, index) => <p key={index}>{`恭喜 ${item['name']} 抓到 朱一龙 ${item['number']} 号  time: 2018${item['time']}  `} </p>)
+            data && data.length > 0 && data.map((item, index) => <p key={index}>{`恭喜 ${item['name']} 抓到 小龙虾 ${item['number']} 号  time: 2018${item['time']}  `} </p>)
           }
         </div>
       </div>

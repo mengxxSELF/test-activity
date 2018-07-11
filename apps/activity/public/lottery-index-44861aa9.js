@@ -32908,7 +32908,7 @@ var Info = function (_Component) {
             return _react2.default.createElement(
               'p',
               { key: index },
-              '\u606D\u559C ' + item['name'] + ' \u6293\u5230 \u6731\u4E00\u9F99 ' + item['number'] + ' \u53F7  time: 2018' + item['time'] + '  ',
+              '\u606D\u559C ' + item['name'] + ' \u6293\u5230 \u5C0F\u9F99\u867E ' + item['number'] + ' \u53F7  time: 2018' + item['time'] + '  ',
               ' '
             );
           })
