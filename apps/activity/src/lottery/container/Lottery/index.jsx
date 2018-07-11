@@ -57,7 +57,7 @@ export default class Lottery extends Component {
         let { number, code } = data
         let msg
         if (code == 200) {
-          msg = `恭喜 ${username} 抓到 朱一龙 ${number}号`
+          msg = `恭喜 ${username} 抓到 小龙虾 ${number}号`
 
           let {data: allData} = this.state
           allData.push({name: username, number, time })
