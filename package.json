@@ -15,6 +15,7 @@
     "axios": "^0.18.0",
     "bd": "^0.4.0",
     "bd-require": "^0.1.0",
+    "bluebird": "^3.5.1",
     "handlebars": "^4.0.11",
     "jsonwebtoken": "^8.3.0",
     "koa-jwt": "^3.3.2",
@@ -30,6 +31,7 @@
   },
   "homepage": "https://github.com/mengxxSELF/test-activity#readme",
   "devDependencies": {
+    "jwa": "^1.1.6",
     "koa-static": "^1.5.2",
     "nodemon": "^1.17.5",
     "shipit-cnpm": "^0.7.0",

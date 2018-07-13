@@ -2,7 +2,7 @@
  * @Author: 孟闲闲 -- 抽奖翻盘
  * @Date: 2018-07-09 14:32:20
  * @Last Modified by: mxx
- * @Last Modified time: 2018-07-09 19:08:01
+ * @Last Modified time: 2018-07-13 13:48:43
  */
 
 import axios from 'axios'
@@ -69,13 +69,18 @@ export default class Lottery extends Component {
           }
 
           this.setState({data: allData})
+        } else if (code == 501) {
+          alert("您已经在其他设备登录，将强制下线")
+
+          // 清除token 并且返回登录页面
+          window.localStorage.removeItem('token')
+          window.location.hash = '/'
         } else {
           msg = '无权限抽奖，请先登录'
         }
         this.setState({ msg })
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(({data}) => {
         this.setState({ msg: '无权限抽奖，请先登录' })
       });
   }
