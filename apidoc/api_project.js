@@ -1,0 +1,1 @@
+define({  "name": "life",  "version": "0.1.0",  "description": "电商接口文档API",  "title": "电商接口文档API",  "url": "https://life.blued.com/life",  "sampleUrl": "localhost:1234",  "defaultVersion": "0.0.0",  "apidoc": "0.3.0",  "generator": {    "name": "apidoc",    "time": "2018-10-10T11:41:32.765Z",    "url": "http://apidocjs.com",    "version": "0.17.6"  }});
